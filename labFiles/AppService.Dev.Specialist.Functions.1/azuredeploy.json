@@ -144,9 +144,9 @@
       },
        "resources": [
        {
-         "name": "MSDeploy",
+         "name": "zipdeploy",
          "type": "Extensions",
-         "apiVersion": "2018-11-01",
+         "apiVersion": "2019-08-01",
          "dependsOn": [
            "[resourceId('Microsoft.Web/Sites', variables('functionAppName'))]"
          ],
@@ -182,4 +182,5 @@
  ]
 
 }
+
 
