@@ -17,7 +17,7 @@
       "type": "string",
       "defaultValue": "dotnet-isolated"
     },
-    "msdeployPackageUrl": {
+    "zipdeployPackageUrl": {
       "defaultValue": "https://flexrg9660.blob.core.windows.net/elx/csharpguitar-elx.zip",
       "type": "string"
     }
@@ -142,46 +142,24 @@
           ]
         }
       },
-       "resources": [
-       {
-         "name": "MSDeploy",
-         "type": "Extensions",
-         "apiVersion": "2018-11-01",
-         "dependsOn": [
-           "[resourceId('Microsoft.Web/Sites', variables('functionAppName'))]"
-         ],
-         "properties": {
-           "packageUri": "[parameters('msdeployPackageUrl')]"
-         }
-       },
-       {
-         "apiVersion": "2015-08-01",
-         "name": "appsettings",
-         "type": "config",
-         "dependsOn": [
-           "[concat('Microsoft.Web/Sites/', variables('functionAppName'))]",
-           "[concat('Microsoft.Web/Sites/', variables('functionAppName'), '/Extensions/MSDeploy')]",
-	   "[concat('microsoft.insights/components/', variables('applicationInsightsName'))]"
-         ],
-         "properties": {
-           "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]",
-           "AzureFunctionsWebHost__hostid": "[concat(variables('functionAppName'), '-hostid')]",
-           "AzureWebJobsDisableHomepage": "true",
-           "BLOB_CONNECTION": "[concat('DefaultEndpointsProtocol=https;AccountName=x', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]",
-	   "TIMER_FUNCTION_GO": "true",
-           "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]",
-           "WEBSITE_CONTENTSHARE": "[toLower(variables('functionAppName'))]",
-           "FUNCTIONS_EXTENSION_VERSION": "~4",
-           "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('microsoft.insights/components', variables('applicationInsightsName')), '2020-02-02-preview').InstrumentationKey]",
-           "FUNCTIONS_WORKER_RUNTIME": "[variables('functionWorkerRuntime')]",
-           "WEBSITE_RUN_FROM_PACKAGE": "1"
-       }
-      }
+             "resources": [
+        {
+          "name": "zipdeploy",
+          "type": "Extensions",
+          "apiVersion": "2019-08-01",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', variables('functionAppName'))]"
+          ],
+          "properties": {
+            "packageUri": "[parameters('zipdeployPackageUrl')]"
+          }
+        }
      ]
    }
  ]
 
 }
+
 
 
 
