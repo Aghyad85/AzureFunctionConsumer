@@ -15,7 +15,7 @@
     },
     "runtime": {
       "type": "string",
-      "defaultValue": "dotnet"
+      "defaultValue": "dotnet-isolated"
     },
     "msdeployPackageUrl": {
       "defaultValue": "https://csharpguitar.blob.core.windows.net/elx/csharpguitar-elx.zip",
@@ -182,4 +182,5 @@
  ]
 
 }
+
 
