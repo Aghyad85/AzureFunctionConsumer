@@ -19,7 +19,7 @@
     },
     " PackageUrl": {
       "type": "string",
-      "defaultValue": "https://csharpguitar.blob.core.windows.net/elx/csharpguitar-elx.zip",
+      "defaultValue": "https://flexrg9660.blob.core.windows.net/elx/csharpguitar-elx.zip",
       "metadata": {
         "description": "HTTP(s) or SAS URL to the ZIP package for zipdeploy."
       }
@@ -184,5 +184,6 @@
   ]
 
 }
+
 
 
