@@ -17,10 +17,12 @@
       "type": "string",
       "defaultValue": "dotnet-isolated"
     },
-    "zipdeployPackageUrl": {
+    " PackageUrl": {
       "type": "string",
-      "defaultValue": "https://flexrg9660.blob.core.windows.net/elx/csharpguitar-elx.zip",
-      "type": "string"
+      "defaultValue": "https://csharpguitar.blob.core.windows.net/elx/csharpguitar-elx.zip",
+      "metadata": {
+        "description": "HTTP(s) or SAS URL to the ZIP package for zipdeploy."
+      }
     }
   },
   "variables": {
@@ -49,7 +51,7 @@
           "type": "blobServices/containers",
           "apiVersion": "2021-02-01",
           "name": "[variables('storageContainer')]",
-          "dependsOn": [
+            "dependsOn": [
             "[variables('storageAccountName')]"
           ]
         }
@@ -145,14 +147,14 @@
       },
       "resources": [
         {
-          "name": "MSDeploy",
+          "name": "zipdeploy",
           "type": "Extensions",
-          "apiVersion": "2018-11-01",
+          "apiVersion": "2019-08-01",
           "dependsOn": [
             "[resourceId('Microsoft.Web/Sites', variables('functionAppName'))]"
           ],
           "properties": {
-            "packageUri": "[parameters('msdeployPackageUrl')]"
+            "packageUri": "[parameters('zipdeployPackageUrl')]"
           }
         },
         {
@@ -161,7 +163,7 @@
           "type": "config",
           "dependsOn": [
             "[concat('Microsoft.Web/Sites/', variables('functionAppName'))]",
-            "[concat('Microsoft.Web/Sites/', variables('functionAppName'), '/Extensions/MSDeploy')]",
+            "[concat('Microsoft.Web/Sites/', variables('functionAppName'), '/Extensions/zipdeploy')]",
             "[concat('microsoft.insights/components/', variables('applicationInsightsName'))]"
           ],
           "properties": {
@@ -174,8 +176,7 @@
             "WEBSITE_CONTENTSHARE": "[toLower(variables('functionAppName'))]",
             "FUNCTIONS_EXTENSION_VERSION": "~4",
             "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('microsoft.insights/components', variables('applicationInsightsName')), '2020-02-02-preview').InstrumentationKey]",
-            "FUNCTIONS_WORKER_RUNTIME": "[variables('functionWorkerRuntime')]",
-            "WEBSITE_RUN_FROM_PACKAGE": "1"
+            "FUNCTIONS_WORKER_RUNTIME": "[variables('functionWorkerRuntime')]"
           }
         }
       ]
