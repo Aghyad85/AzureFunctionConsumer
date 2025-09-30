@@ -15,14 +15,11 @@
     },
     "runtime": {
       "type": "string",
-      "defaultValue": "dotnet-isolated"
+      "defaultValue": "dotnet"
     },
-    "zipdeployPackageUrl": {
-      "type": "string",
-      "defaultValue": "https://flexrg9660.blob.core.windows.net/elx/csharpguitar-elx.zip",
-      "metadata": {
-        "description": "HTTP(S) or SAS URL to the zip package used for zipdeploy."
-      }
+    "msdeployPackageUrl": {
+      "defaultValue": "https://csharpguitar.blob.core.windows.net/elx/csharpguitar-elx.zip",
+      "type": "string"
     }
   },
   "variables": {
@@ -31,9 +28,7 @@
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'elx')]",
     "applicationInsightsName": "[parameters('appName')]",
     "functionWorkerRuntime": "[parameters('runtime')]",
-    "storageContainer": "[concat('default/', 'elx')]",
-    "storageKeysApiVersion": "2021-02-01",
-    "appInsightsApiVersion": "2020-02-02"
+    "storageContainer": "[concat('default/', 'elx')]"
   },
   "resources": [
     {
@@ -41,21 +36,23 @@
       "name": "[variables('storageAccountName')]",
       "apiVersion": "2021-02-01",
       "location": "[parameters('location')]",
-      "kind": "StorageV2",
-      "sku": { "name": "Standard_LRS" },
-      "tags": {
-        "SecurityControl": "Ignore"
-      },
-      "properties": {
-        "supportsHttpsTrafficOnly": true
+	  "tags": {
+                "SecurityControl": "Ignore"
+       },
+      "kind": "Storage",
+      "sku": {
+        "name": "Standard_LRS"
       },
       "resources": [
-        {
-          "type": "blobServices/containers",
-          "apiVersion": "2021-02-01",
-          "name": "[variables('storageContainer')]"
-        }
-      ]
+      {
+        "type": "blobServices/containers",
+        "apiVersion": "2021-02-01",
+        "name": "[variables('storageContainer')]",
+        "dependsOn": [
+          "[variables('storageAccountName')]"
+        ]
+      }
+     ]
     },
     {
       "type": "Microsoft.Web/serverfarms",
@@ -67,16 +64,17 @@
         "tier": "Dynamic"
       },
       "properties": {
+        "name": "[variables('hostingPlanName')]",
         "computeMode": "Dynamic"
       }
     },
     {
       "type": "microsoft.insights/components",
-      "apiVersion": "[variables('appInsightsApiVersion')]",
+      "apiVersion": "2020-02-02-preview",
       "name": "[variables('applicationInsightsName')]",
       "location": "[parameters('location')]",
       "tags": {
-        "[concat('hidden-link:', resourceId('Microsoft.Web/sites', variables('functionAppName')))]": "Resource"
+        "[concat('hidden-link:', resourceId('Microsoft.Web/sites', variables('applicationInsightsName')))]": "Resource"
       },
       "properties": {
         "ApplicationId": "[variables('applicationInsightsName')]",
@@ -84,28 +82,30 @@
       }
     },
     {
-      "type": "Microsoft.Web/sites",
       "apiVersion": "2020-12-01",
+      "type": "Microsoft.Web/sites",
       "name": "[variables('functionAppName')]",
       "location": "[parameters('location')]",
       "kind": "functionapp",
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
-        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-        "[resourceId('microsoft.insights/components', variables('applicationInsightsName'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
       ],
       "properties": {
-        "httpsOnly": true,
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "siteConfig": {
           "appSettings": [
             {
+              "name": "BLOB_FUNCTION_GO",
+              "value": "true"
+            },
+	    {
               "name": "AzureWebJobsStorage",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageKeysApiVersion')).keys[0].value)]"
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]"
             },
             {
               "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageKeysApiVersion')).keys[0].value)]"
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]"
             },
             {
               "name": "WEBSITE_CONTENTSHARE",
@@ -117,27 +117,23 @@
             },
             {
               "name": "BLOB_CONNECTION",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=x', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageKeysApiVersion')).keys[0].value)]"
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=x', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]"
             },
-            {
-              "name": "BLOB_FUNCTION_GO",
-              "value": "true"
-            },
-            {
+	    {
               "name": "TIMER_FUNCTION_GO",
               "value": "true"
             },
-            {
+	    {
               "name": "AzureFunctionsWebHost__hostid",
               "value": "[concat(variables('functionAppName'), '-hostid')]"
             },
-            {
+	    {
               "name": "AzureWebJobsDisableHomepage",
               "value": "true"
             },
             {
               "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-              "value": "[reference(resourceId('microsoft.insights/components', variables('applicationInsightsName')), variables('appInsightsApiVersion')).InstrumentationKey]"
+              "value": "[reference(resourceId('microsoft.insights/components', variables('applicationInsightsName')), '2020-02-02-preview').InstrumentationKey]"
             },
             {
               "name": "FUNCTIONS_WORKER_RUNTIME",
@@ -146,19 +142,44 @@
           ]
         }
       },
-      "resources": [
-        {
-          "name": "zipdeploy",
-          "type": "Extensions",
-          "apiVersion": "2019-08-01",
-          "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]"
-          ],
-          "properties": {
-            "packageUri": "[parameters('zipdeployPackageUrl')]"
-          }
-        }
-      ]
-    }
-  ]
+       "resources": [
+       {
+         "name": "MSDeploy",
+         "type": "Extensions",
+         "apiVersion": "2018-11-01",
+         "dependsOn": [
+           "[resourceId('Microsoft.Web/Sites', variables('functionAppName'))]"
+         ],
+         "properties": {
+           "packageUri": "[parameters('msdeployPackageUrl')]"
+         }
+       },
+       {
+         "apiVersion": "2015-08-01",
+         "name": "appsettings",
+         "type": "config",
+         "dependsOn": [
+           "[concat('Microsoft.Web/Sites/', variables('functionAppName'))]",
+           "[concat('Microsoft.Web/Sites/', variables('functionAppName'), '/Extensions/MSDeploy')]",
+	   "[concat('microsoft.insights/components/', variables('applicationInsightsName'))]"
+         ],
+         "properties": {
+           "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]",
+           "AzureFunctionsWebHost__hostid": "[concat(variables('functionAppName'), '-hostid')]",
+           "AzureWebJobsDisableHomepage": "true",
+           "BLOB_CONNECTION": "[concat('DefaultEndpointsProtocol=https;AccountName=x', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]",
+	   "TIMER_FUNCTION_GO": "true",
+           "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]",
+           "WEBSITE_CONTENTSHARE": "[toLower(variables('functionAppName'))]",
+           "FUNCTIONS_EXTENSION_VERSION": "~4",
+           "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('microsoft.insights/components', variables('applicationInsightsName')), '2020-02-02-preview').InstrumentationKey]",
+           "FUNCTIONS_WORKER_RUNTIME": "[variables('functionWorkerRuntime')]",
+           "WEBSITE_RUN_FROM_PACKAGE": "1"
+       }
+      }
+     ]
+   }
+ ]
+
 }
+
