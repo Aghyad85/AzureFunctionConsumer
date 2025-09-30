@@ -17,12 +17,9 @@
       "type": "string",
       "defaultValue": "dotnet-isolated"
     },
-    " PackageUrl": {
-      "type": "string",
+     "zipdeployPackageUrl": {
       "defaultValue": "https://flexrg9660.blob.core.windows.net/elx/csharpguitar-elx.zip",
-      "metadata": {
-        "description": "HTTP(s) or SAS URL to the ZIP package for zipdeploy."
-      }
+       "type": "string"
     }
   },
   "variables": {
@@ -184,6 +181,7 @@
   ]
 
 }
+
 
 
 
