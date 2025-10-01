@@ -15,10 +15,10 @@
     },
     "runtime": {
       "type": "string",
-      "defaultValue": "dotnet"
+      "defaultValue": "dotnet-isolated"
     },
     "zipdeployPackageUrl": {
-      "defaultValue": "https://csharpguitar.blob.core.windows.net/elx/csharpguitar-elx-http.zip",
+      "defaultValue": "https://flexrg9660.blob.core.windows.net/elx/csharpguitar-elx.zip",
       "type": "string"
     }
   },
@@ -36,6 +36,9 @@
       "name": "[variables('storageAccountName')]",
       "apiVersion": "2021-02-01",
       "location": "[parameters('location')]",
+        "tags": {
+                "SecurityControl": "Ignore"
+       },
       "kind": "Storage",
       "sku": {
         "name": "Standard_LRS"
@@ -104,7 +107,7 @@
             },
             {
               "name": "FUNCTIONS_EXTENSION_VERSION",
-              "value": "~3"
+              "value": "~4"
             },
             {
               "name": "TIMER_FUNCTION_GO",
@@ -149,3 +152,4 @@
     }
   ]
 }
+
