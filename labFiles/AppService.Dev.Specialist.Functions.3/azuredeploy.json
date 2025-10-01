@@ -54,7 +54,7 @@
        },
       "kind": "Storage",
       "sku": {
-        "name": "Standard_LRS"Microsoft.Storage/storageAccount
+        "name": "Standard_LRS"
       }
     },
     {
@@ -179,5 +179,6 @@
     }
   ]
 }
+
 
 
