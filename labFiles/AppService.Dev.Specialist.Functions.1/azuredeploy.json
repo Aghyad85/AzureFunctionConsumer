@@ -16,6 +16,7 @@
     "runtime": {
       "type": "string",
       "defaultValue": "dotnet"
+      "defaultValue": "dotnet-isolated"
     },
     "msdeployPackageUrl": {
       "defaultValue": "https://csharpguitar.blob.core.windows.net/elx/csharpguitar-elx.zip",
@@ -144,9 +145,9 @@
       },
        "resources": [
        {
-         "name": "zipdeploy",
+         "name": "MSDeploy",
          "type": "Extensions",
-         "apiVersion": "2019-08-01",
+         "apiVersion": "2018-11-01",
          "dependsOn": [
            "[resourceId('Microsoft.Web/Sites', variables('functionAppName'))]"
          ],
@@ -182,5 +183,3 @@
  ]
 
 }
-
-
