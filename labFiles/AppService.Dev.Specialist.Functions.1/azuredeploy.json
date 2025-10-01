@@ -17,7 +17,7 @@
       "type": "string",
       "defaultValue": "dotnet-isolated"
     },
-    "msdeployPackageUrl": {
+    "zipdeployPackageUrl": {
       "defaultValue": "https://csharpguitar.blob.core.windows.net/elx/csharpguitar-elx.zip",
       "type": "string"
     }
@@ -151,7 +151,7 @@
            "[resourceId('Microsoft.Web/Sites', variables('functionAppName'))]"
          ],
          "properties": {
-           "packageUri": "[parameters('msdeployPackageUrl')]"
+           "packageUri": "[parameters('zipdeployPackageUrl')]"
          }
        }
      ]
@@ -159,5 +159,6 @@
  ]
 
 }
+
 
 
