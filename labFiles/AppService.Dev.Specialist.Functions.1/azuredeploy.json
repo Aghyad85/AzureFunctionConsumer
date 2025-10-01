@@ -15,7 +15,6 @@
     },
     "runtime": {
       "type": "string",
-      "defaultValue": "dotnet"
       "defaultValue": "dotnet-isolated"
     },
     "msdeployPackageUrl": {
@@ -183,3 +182,4 @@
  ]
 
 }
+
