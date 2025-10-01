@@ -31,7 +31,7 @@
     },
     "linuxFxVersion": {
       "type": "string",
-      "defaultValue": "Python|3.9"
+      "defaultValue": "Python|3.12"
     }
   },
   "variables": {
@@ -142,7 +142,7 @@
           ],
           "use32BitWorkerProcess": "[parameters('use32BitWorkerProcess')]",
           "numberOfWorkers": 1,
-          "linuxFxVersion": "Python|3.9"
+          "linuxFxVersion": "Python|3.12"
         }
       }
     },
@@ -176,3 +176,4 @@
     }
   ]
 }
+
