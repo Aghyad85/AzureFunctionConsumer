@@ -49,7 +49,11 @@
       "name": "[variables('storageAccountName')]",
       "apiVersion": "2021-02-01",
       "location": "[parameters('location')]",
+       "tags": {
+                "SecurityControl": "Ignore"
+       },
       "kind": "Storage",
+      
       "sku": {
         "name": "Standard_LRS"
       }
@@ -176,3 +180,4 @@
     }
   ]
 }
+
