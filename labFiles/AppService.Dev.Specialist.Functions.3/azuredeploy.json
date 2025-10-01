@@ -49,7 +49,7 @@
       "name": "[variables('storageAccountName')]",
       "apiVersion": "2021-02-01",
       "location": "[parameters('location')]",
-        "tags": {
+      "tags": {
                 "SecurityControl": "Ignore"
        },
       "kind": "Storage",
@@ -179,6 +179,7 @@
     }
   ]
 }
+
 
 
 
