@@ -19,7 +19,7 @@ public class z
     }
             
     [Function("z")]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "put", Route = "csharpguitar")] HttpRequest req, CancellationToken cancellationToken)
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "csharpguitar")] HttpRequest req, CancellationToken cancellationToken)
     {
         _logger.LogInformation("C# HTTP trigger function processed a request.");
 

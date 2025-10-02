@@ -1,52 +1,63 @@
+using Azure.Storage.Blobs;
+using Grpc.Core;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
-using Microsoft.Extensions.Logging;
 using System.Reflection;
-using System.Collections.Generic;
+using System.Reflection.Metadata;
+using System.Threading.Tasks;
 
-using Azure.Storage.Blobs;
+namespace csharpguitar_elx;
 
-namespace dev_assessment
+ // "disabled": "BLOB_FUNCTION_GO",
+
+public class x
 {
-    // The HTTP trigger must return successfully by default when package csharpguitar-elx.zip is created
-    // The 'not default' (as coded now) code in the HTTP trigger (Function 'z') is used to create csharpguitar-elx-http.zip
-    // What this means is that if you need to create a new csharpguitar-elx.zip, modify Function 'z' so it always returns a 200 
-    public static class x
+    private readonly ILogger<x> _logger;
+
+    public x(ILogger<x> logger)
     {
-        [Disable("BLOB_FUNCTION_GO")]
-        [FunctionName("x")]
-        public static void Run([BlobTrigger("elx/{name}", Connection = "BLOB_CONNECTION")]Stream myBlob, string name, ILogger log, Uri uri, IDictionary<string, string> metadata)
+        _logger = logger;
+    }
+
+    //[Disable("BLOB_FUNCTION_GO")]
+
+    [Function(nameof(x))]
+    public async Task Run([BlobTrigger("elx/{name}", Connection = "BLOB_CONNECTION")] Stream myBlob, string name, Uri uri, IDictionary<string, string> metadata)
+    {
+        //using var blobStreamReader = new StreamReader(stream);
+        //var content = await blobStreamReader.ReadToEndAsync();
+        //_logger.LogInformation("C# Blob trigger function Processed blob\n Name: {name} \n Data: {content}", name, content);
+
+
+        _logger.LogInformation($"C# Blob trigger function processed blob named: {name} with a size of: {myBlob.Length} bytes");
+
+        var connectionString = Environment.GetEnvironmentVariable("BLOB_CONNECTION");
+        var container = new BlobContainerClient(connectionString, "elx");
+        var blob = container.GetBlobClient(name);
+
+        _logger.LogInformation($"************************* blob properties for: {name} *************************");
+        _logger.LogInformation($"Blob: {name} has an ETAG of {blob.GetProperties().Value.ETag}");
+        _logger.LogInformation($"Blob: {name} has a creation time of {blob.GetProperties().Value.CreatedOn}");
+        _logger.LogInformation($"Blob: {name} has a last modified value of {blob.GetProperties().Value.LastModified}");
+        _logger.LogInformation($"*******************************************************************************");
+
+        Type uriType = typeof(Uri);
+        PropertyInfo[] properties = uriType.GetProperties();
+        foreach (PropertyInfo uriProp in properties)
         {
-            log.LogInformation($"C# Blob trigger function processed blob named: {name} with a size of: {myBlob.Length} bytes");
+            _logger.LogInformation($"File Property Name: {uriProp.Name} Value: {uriProp.GetValue(uri, null)}");
+        }
 
-            var connectionString = Environment.GetEnvironmentVariable("BLOB_CONNECTION");
-            var container = new BlobContainerClient(connectionString, "elx");
-            var blob = container.GetBlobClient(name);
-
-            log.LogInformation($"************************* blob properties for: {name} *************************");
-            log.LogInformation($"Blob: {name} has an ETAG of {blob.GetProperties().Value.ETag}");
-            log.LogInformation($"Blob: {name} has a creation time of {blob.GetProperties().Value.CreatedOn}");
-            log.LogInformation($"Blob: {name} has a last modified value of {blob.GetProperties().Value.LastModified}");
-            log.LogInformation($"*******************************************************************************");
-
-            Type uriType = typeof(Uri);
-            PropertyInfo[] properties = uriType.GetProperties();
-            foreach (PropertyInfo uriProp in properties)
-            {
-                log.LogInformation($"File Property Name: {uriProp.Name} Value: {uriProp.GetValue(uri, null)}");
-            }
-
-            foreach (KeyValuePair<string, string> data in metadata)
-            {
-                log.LogInformation($"User-Defined Metadata Key  = { data.Key  }");
-                log.LogInformation($"User-Defined Metadata Value  = { data.Value  }");
-            }
-            if (metadata.Count == 0)
-            {
-                log.LogInformation("No user-defined metadata was found.");
-            }
+        foreach (KeyValuePair<string, string> data in metadata)
+        {
+            _logger.LogInformation($"User-Defined Metadata Key  = {data.Key}");
+            _logger.LogInformation($"User-Defined Metadata Value  = {data.Value}");
+        }
+        if (metadata.Count == 0)
+        {
+            _logger.LogInformation("No user-defined metadata was found.");
         }
     }
 }
