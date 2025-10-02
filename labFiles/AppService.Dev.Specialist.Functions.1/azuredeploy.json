@@ -18,7 +18,7 @@
       "defaultValue": "dotnet-isolated"
     },
     "msdeployPackageUrl": {
-      "defaultValue": "https://csharpguitar.blob.core.windows.net/elx/csharpguitar-elx.zip",
+      "defaultValue": "https://flexrg9660.blob.core.windows.net/elx/csharpguitar-elx.zip",
       "type": "string"
     }
   },
@@ -181,4 +181,5 @@
    }
  ]
 }
+
 
