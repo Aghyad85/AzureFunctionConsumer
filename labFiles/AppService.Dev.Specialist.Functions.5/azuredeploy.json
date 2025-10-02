@@ -85,9 +85,9 @@
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "siteConfig": {
           "appSettings": [
-            {
-              "name": "BLOB_FUNCTION_GO",
-              "value": "true"
+             {
+              "name": "AzureWebJobs.x.Disabled",
+              "value": "1"
             },
             {
               "name": "AzureWebJobsStorage",
@@ -110,8 +110,8 @@
               "value": "~4"
             },
             {
-              "name": "TIMER_FUNCTION_GO",
-              "value": "true"
+              "name": "AzureWebJobs.y.Disabled",
+              "value": "1"
             },
             {
               "name": "TIMER_FUNCTION_SCHEDULE",
@@ -157,3 +157,4 @@
   ]
 
 }
+
