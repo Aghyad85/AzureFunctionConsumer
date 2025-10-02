@@ -96,8 +96,8 @@
         "siteConfig": {
           "appSettings": [
             {
-              "name": "BLOB_FUNCTION_GO",
-              "value": "true"
+              "name": "AzureWebJobs.x.Disabled",
+              "value": "1"
             },
             {
               "name": "AzureWebJobsStorage",
@@ -163,3 +163,4 @@
  ]
 
 }
+
