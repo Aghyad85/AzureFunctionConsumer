@@ -171,7 +171,7 @@
 	   "TIMER_FUNCTION_GO": "true",
            "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]",
            "WEBSITE_CONTENTSHARE": "[toLower(variables('functionAppName'))]",
-           "FUNCTIONS_EXTENSION_VERSION": "~3",
+           "FUNCTIONS_EXTENSION_VERSION": "~4",
            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('microsoft.insights/components', variables('applicationInsightsName')), '2020-02-02-preview').InstrumentationKey]",
            "FUNCTIONS_WORKER_RUNTIME": "[variables('functionWorkerRuntime')]",
            "WEBSITE_RUN_FROM_PACKAGE": "1"
@@ -181,3 +181,4 @@
    }
  ]
 }
+
