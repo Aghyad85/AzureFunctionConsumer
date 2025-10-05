@@ -155,6 +155,9 @@
       "apiVersion": "2018-01-01-preview",
       "name": "[variables('eventHubNamespaceName')]",
       "location": "[parameters('location')]",
+      "tags": {
+                "SecurityControl": "Ignore"
+            },
       "sku": {
         "name": "[parameters('eventHubSku')]",
         "tier": "[parameters('eventHubSku')]",
@@ -180,5 +183,6 @@
     }
   ]
 }
+
 
 
