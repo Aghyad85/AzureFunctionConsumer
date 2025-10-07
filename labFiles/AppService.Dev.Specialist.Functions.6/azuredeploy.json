@@ -93,7 +93,7 @@
         },
        "vnetName": {
   "type": "string",
-  "defaultValue": "[format('vnet-{0}', concat('a', uniqueString(resourceGroup().id)))]",
+    "defaultValue": "[concat('vnet-', substring(uniqueString(resourceGroup().id), 0, 8), 'a')]",
   "metadata": {
     "description": "The name of the virtual network for virtual network integration."
   }
