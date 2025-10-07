@@ -86,7 +86,7 @@
         },
         "functionStorageAccountName": {
             "type": "string",
-            "defaultValue": "[format('st{B0}', uniqueString(resourceGroup().id))]",
+            "defaultValue": "[format('st{0}', uniqueString(resourceGroup().id))]",
             "metadata": {
                 "description": "The name of the backend Azure storage account used by the Azure Function app."
             }
