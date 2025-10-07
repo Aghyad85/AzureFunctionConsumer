@@ -6,8 +6,16 @@ ARM Template for deploying lab for AppService DEV Specialist Certification - Azu
 
 ## This arm deployment will provision:
 
-1.	An Azure Storage Account
-2.	An Azure Function Dynamic App Sevice Plan
-3.	An Azure Function App
-4.	An Application Insights Resource
-5. Uses the ZIPDEPLOY extension to deploy Function source code
+1. Function App
+2. App Service Plan
+3. Storage Account
+4. Virtual Network (VNet)
+5. Function Subnet
+6. Private Endpoint Subnet
+7. Key Vault
+8. Additional VNet (myStorage-vnet)
+9. Private Endpoint
+
+
+
+
