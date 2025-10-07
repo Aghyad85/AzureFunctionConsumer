@@ -362,6 +362,9 @@
             "apiVersion": "2022-05-01",
             "name": "[parameters('functionStorageAccountName')]",
             "location": "[parameters('location')]",
+             "tags": {
+                "SecurityControl": "Ignore"
+                      },
             "kind": "StorageV2",
             "sku": {
                 "name": "Standard_LRS"
