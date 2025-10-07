@@ -93,7 +93,7 @@
         },
        "vnetName": {
   "type": "string",
-    "defaultValue": "[concat('vnet-', substring(uniqueString(resourceGroup().id), 0, 8), 'a')]",
+    "defaultValue": "elx-vnet",
   "metadata": {
     "description": "The name of the virtual network for virtual network integration."
   }
