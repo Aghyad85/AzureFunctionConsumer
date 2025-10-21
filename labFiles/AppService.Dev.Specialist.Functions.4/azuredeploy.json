@@ -34,19 +34,19 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('storageAccountName')]",
-      "apiVersion": "2021-02-01",
+      "apiVersion": "2025-01-01",
       "location": "[parameters('location')]",
         "tags": {
                 "SecurityControl": "Ignore"
        },
-      "kind": "Storage",
+      "kind": "StorageV2",
       "sku": {
         "name": "Standard_LRS"
       }
     },
     {
       "type": "Microsoft.Web/serverfarms",
-      "apiVersion": "2020-12-01",
+      "apiVersion": "2024-11-01",
       "name": "[variables('hostingPlanName')]",
       "location": "[parameters('location')]",
       "sku": {
@@ -59,27 +59,29 @@
       }
     },
     {
-      "type": "microsoft.insights/components",
-      "apiVersion": "2020-02-02-preview",
+      "type": "Microsoft.Insights/components",
+      "apiVersion": "2020-02-02",
       "name": "[variables('applicationInsightsName')]",
       "location": "[parameters('location')]",
       "tags": {
         "[concat('hidden-link:', resourceId('Microsoft.Web/sites', variables('applicationInsightsName')))]": "Resource"
       },
+      "kind": "web",
       "properties": {
-        "ApplicationId": "[variables('applicationInsightsName')]",
-        "Request_Source": "IbizaWebAppExtensionCreate"
+        "Application_Type": "web",
+        "Request_Source": "rest"
       }
     },
     {
-      "apiVersion": "2020-12-01",
+      "apiVersion": "2024-11-01",
       "type": "Microsoft.Web/sites",
       "name": "[variables('functionAppName')]",
       "location": "[parameters('location')]",
       "kind": "functionapp",
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
-        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+		"[resourceId('Microsoft.Insights/components', variables('applicationInsightsName'))]"
       ],
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
@@ -103,7 +105,7 @@
             },
             {
               "name": "WEBSITE_RUN_FROM_PACKAGE",
-              "value": "0"
+              "value": "1"
             },
             {
               "name": "FUNCTIONS_EXTENSION_VERSION",
@@ -114,10 +116,6 @@
               "value": "1"
             },
             {
-              "name": "HTTP_TRIGGER_CANCELLATION",
-              "value": "false"
-            },
-            {
               "name": "AzureFunctionsWebHost__hostid",
               "value": "[concat(variables('functionAppName'), '-hostid')]"
             },
@@ -126,8 +124,8 @@
               "value": "true"
             },
             {
-              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-              "value": "[reference(resourceId('microsoft.insights/components', variables('applicationInsightsName')), '2020-02-02-preview').InstrumentationKey]"
+              "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+			  "value": "[reference(resourceId('Microsoft.Insights/components', variables('applicationInsightsName')), '2020-02-02').ConnectionString]"
             },
             {
               "name": "FUNCTIONS_WORKER_RUNTIME",
@@ -140,7 +138,7 @@
         {
           "name": "zipdeploy",
           "type": "Extensions",
-          "apiVersion": "2019-08-01",
+          "apiVersion": "2024-11-01",
           "dependsOn": [
             "[resourceId('Microsoft.Web/Sites', variables('functionAppName'))]"
           ],
