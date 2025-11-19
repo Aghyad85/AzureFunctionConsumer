@@ -1,0 +1,61 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{B8EFCA5F-814F-285C-A8CB-F00F14650265}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csharpguitar-elx", "source\csharpguitar-elx\csharpguitar-elx.csproj", "{AF62D801-972D-1584-C165-01520351B444}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csharpguitar-elx (1)", "csharpguitar-elx (1)", "{F0CD17CF-DBBD-0508-B743-70780C9439C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "obj", "obj", "{94F102E1-643A-BBA4-39DC-C909AFBDB433}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debug", "Debug", "{7671A5AC-D5B1-B262-4232-98C36C8F459C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "net9.0", "net9.0", "{DFE37FB4-B48F-76AB-3898-410CAC7F38DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerExtensions", "source\csharpguitar-elx\obj\Debug\net9.0\WorkerExtensions\WorkerExtensions.csproj", "{D5387CA3-A547-81DB-0DB1-090B4CD5203C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Release", "Release", "{B0294777-234C-4F8C-5877-91EA75A63F05}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "net9.0", "net9.0", "{3E2C95E3-FEC2-0D9E-BE9D-88BAE27C31AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerExtensions", "source\csharpguitar-elx\obj\Release\net9.0\WorkerExtensions\WorkerExtensions.csproj", "{BF24F001-821A-4E32-FACC-3859E326139A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF62D801-972D-1584-C165-01520351B444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF62D801-972D-1584-C165-01520351B444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF62D801-972D-1584-C165-01520351B444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF62D801-972D-1584-C165-01520351B444}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5387CA3-A547-81DB-0DB1-090B4CD5203C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5387CA3-A547-81DB-0DB1-090B4CD5203C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5387CA3-A547-81DB-0DB1-090B4CD5203C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5387CA3-A547-81DB-0DB1-090B4CD5203C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF24F001-821A-4E32-FACC-3859E326139A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF24F001-821A-4E32-FACC-3859E326139A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF24F001-821A-4E32-FACC-3859E326139A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF24F001-821A-4E32-FACC-3859E326139A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AF62D801-972D-1584-C165-01520351B444} = {B8EFCA5F-814F-285C-A8CB-F00F14650265}
+		{F0CD17CF-DBBD-0508-B743-70780C9439C4} = {B8EFCA5F-814F-285C-A8CB-F00F14650265}
+		{94F102E1-643A-BBA4-39DC-C909AFBDB433} = {F0CD17CF-DBBD-0508-B743-70780C9439C4}
+		{7671A5AC-D5B1-B262-4232-98C36C8F459C} = {94F102E1-643A-BBA4-39DC-C909AFBDB433}
+		{DFE37FB4-B48F-76AB-3898-410CAC7F38DB} = {7671A5AC-D5B1-B262-4232-98C36C8F459C}
+		{D5387CA3-A547-81DB-0DB1-090B4CD5203C} = {DFE37FB4-B48F-76AB-3898-410CAC7F38DB}
+		{B0294777-234C-4F8C-5877-91EA75A63F05} = {94F102E1-643A-BBA4-39DC-C909AFBDB433}
+		{3E2C95E3-FEC2-0D9E-BE9D-88BAE27C31AF} = {B0294777-234C-4F8C-5877-91EA75A63F05}
+		{BF24F001-821A-4E32-FACC-3859E326139A} = {3E2C95E3-FEC2-0D9E-BE9D-88BAE27C31AF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A435AE6E-B41B-4133-A555-818FAC504AB1}
+	EndGlobalSection
+EndGlobal
