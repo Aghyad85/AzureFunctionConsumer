@@ -18,7 +18,7 @@
       "defaultValue": "dotnet-isolated"
     },
     "zipdeployPackageUrl": {
-      "defaultValue": "https://flexrg9660.blob.core.windows.net/elx/csharpguitar-elx.zip",
+      "defaultValue": "https://github.com/Aghyad85/AzureFunctionConsumer/raw/refs/heads/master/labFiles/source/elx/csharpguitar-elx.zip",
       "type": "string"
     }
   },
