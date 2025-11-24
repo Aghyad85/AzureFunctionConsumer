@@ -1,5 +1,5 @@
 # Azure Functions connectivity issues
-ARM Template for deploying lab for AppService DEV Specialist Certification - Azure Functions Lab #6
+ARM Template for deploying lab for Azure Functions connectivity issues
 
 [![Deploy To Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Faghyad85%2FAzureFunctionConsumer%2Fmaster%2FlabFiles%2FAppService.Dev.Specialist.Functions.6%2Fazuredeploy.json
 )
