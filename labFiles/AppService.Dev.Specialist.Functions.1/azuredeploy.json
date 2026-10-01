@@ -39,7 +39,7 @@
 	  "tags": {
                 "SecurityControl": "Ignore"
        },
-      "kind": "Storage",
+      "kind": "StorageV2",
       "sku": {
         "name": "Standard_LRS"
       },
